@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.phpinnacle.redoc</id>
+    <name>Redoc</name>
+    <vendor email="dev@phpinnacle.com" url="http://www.phpinnacle.com">PHPinnacle</vendor>
+
+    <description><![CDATA[
+        OpenAPI 3.0 (Swagger) documentation render via Redoc JS library
+    ]]></description>
+
+    <idea-version since-build="182"/>
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileEditorProvider implementation="com.phpinnacle.redoc.RedocEditorProvider"/>
+        <applicationService serviceImplementation="com.phpinnacle.redoc.RedocServer"/>
+        <applicationService serviceImplementation="com.phpinnacle.redoc.settings.RedocSettings"/>
+        <applicationConfigurable groupId="tools" displayName="Redoc" id="settings.Redoc" instance="com.phpinnacle.redoc.settings.RedocConfigurable"/>
+    </extensions>
+
+    <application-components>
+        <component>
+            <implementation-class>com.phpinnacle.redoc.RedocApplication</implementation-class>
+        </component>
+    </application-components>
+</idea-plugin>
