@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{css:fonts}" rel="stylesheet">
+    <script src="{js:redoc}"></script>
+    <script type="text/javascript">
+    function render(spec, options)
+    {
+        document.body.innerHTML = '<div id="redoc"></div>';
+
+        Redoc.init(spec, JSON.parse(options), document.getElementById('redoc'));
+    }
+    </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.4.9'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+group 'com.phpinnnacle'
+version '0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+intellij {
+    version '2018.2'
+    pluginName 'redoc'
+    intellij.updateSinceUntilBuild false
+}
+
+javafx {
+    version = '12'
+    modules = [ 'javafx.controls', 'javafx.swing', 'javafx.web' ]
+    configuration = 'compileOnly'
+}
+
+publishPlugin {
+    token pluginToken
+}
+
+patchPluginXml {
+    changeNotes """
+      0.1 Initial release"""
+}
