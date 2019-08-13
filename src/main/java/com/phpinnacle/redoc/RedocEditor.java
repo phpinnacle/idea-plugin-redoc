@@ -2,7 +2,6 @@ package com.phpinnacle.redoc;
 
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
@@ -12,9 +11,7 @@ import com.intellij.openapi.fileEditor.FileEditorState;
 import com.intellij.openapi.fileEditor.FileEditorStateLevel;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.UserDataHolderBase;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.phpinnacle.redoc.settings.RedocSettings;
-import com.phpinnacle.redoc.settings.RedocSettings.ChangeListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,16 +25,12 @@ public class RedocEditor extends UserDataHolderBase implements FileEditor, Dispo
 
     private final RedocServer server;
     private final RedocSettings settings;
-    private final VirtualFile file;
-    private final Document document;
+    private final String path;
 
-    RedocEditor(@NotNull RedocServer server, @NotNull RedocSettings settings, @NotNull VirtualFile file, @NotNull Document document) {
+    RedocEditor(@NotNull RedocServer server, @NotNull RedocSettings settings, @NotNull String path) {
         this.server = server;
         this.settings = settings;
-        this.file = file;
-        this.document = document;
-
-        setupListeners();
+        this.path = path;
     }
 
     @NotNull
@@ -115,31 +108,22 @@ public class RedocEditor extends UserDataHolderBase implements FileEditor, Dispo
     @Override
     public void dispose() {
         Disposer.dispose(this);
+
+        server.detach(path);
     }
 
-    private void render() {
-        String spec = "http://localhost:" + server.getPort() + file.getPath();
-
-        panel.render(spec, settings);
+    void render() {
+        panel.render(server.getURL(path), settings);
 
         update = false;
     }
 
-    private void setupListeners() {
-        this.document.addDocumentListener(new DocumentListener() {
+    void setup(Document document) {
+        document.addDocumentListener(new DocumentListener() {
             @Override
             public void documentChanged(@NotNull DocumentEvent event) {
                 update = true;
             }
         }, this);
-
-        ApplicationManager.getApplication().getMessageBus()
-            .connect(this)
-            .subscribe(ChangeListener.TOPIC, new ChangeListener() {
-                @Override
-                public void settingsChanged(@NotNull RedocSettings settings) {
-                    render();
-                }
-            });
     }
 }

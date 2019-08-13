@@ -2,7 +2,6 @@ package com.phpinnacle.redoc;
 
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.Disposer;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -30,13 +29,17 @@ class RedocServer implements Disposable {
         return ServiceManager.getService(RedocServer.class);
     }
 
-    void attach(@NotNull String spec, @NotNull Document document) {
-        handler.attach(spec, document);
+    void attach(@NotNull String spec, @NotNull String text) {
+        handler.attach(spec, text);
     }
 
-    int getPort()
+    void detach(@NotNull String spec) {
+        handler.detach(spec);
+    }
+
+    String getURL(String path)
     {
-        return server.getAddress().getPort();
+        return "http://localhost:" + server.getAddress().getPort() + path;
     }
 
     @Override
@@ -47,10 +50,14 @@ class RedocServer implements Disposable {
     }
 
     private static class RootHandler implements HttpHandler {
-        private Map<String, Document> documents = new HashMap<>();
+        private Map<String, String> documents = new HashMap<>();
 
-        void attach(String spec, @NotNull Document document) {
-            documents.put(spec, document);
+        void attach(@NotNull String spec, @NotNull String text) {
+            documents.put(spec, text);
+        }
+
+        void detach(@NotNull String spec) {
+            documents.remove(spec);
         }
 
         @Override
@@ -70,7 +77,7 @@ class RedocServer implements Disposable {
                     String path = httpExchange.getRequestURI().getPath();
 
                     if (documents.containsKey(path)) {
-                        text = documents.get(path).getText();
+                        text = documents.get(path);
                     } else {
                         status = 404;
                     }

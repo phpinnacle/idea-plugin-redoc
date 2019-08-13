@@ -4,7 +4,7 @@
     <vendor email="dev@phpinnacle.com" url="http://www.phpinnacle.com">PHPinnacle</vendor>
 
     <description><![CDATA[
-        OpenAPI 3.0 (Swagger) documentation render via <a href >Redoc JS library
+        OpenAPI 3.0 (Swagger) documentation render via <a target="_blank" href="https://github.com/Rebilly/ReDoc" >Redoc JS library</a>
     ]]></description>
 
     <idea-version since-build="182"/>
@@ -18,10 +18,4 @@
         <applicationService serviceImplementation="com.phpinnacle.redoc.settings.RedocSettings"/>
         <applicationConfigurable groupId="tools" displayName="Redoc" id="settings.Redoc" instance="com.phpinnacle.redoc.settings.RedocConfigurable"/>
     </extensions>
-
-    <application-components>
-        <component>
-            <implementation-class>com.phpinnacle.redoc.RedocApplication</implementation-class>
-        </component>
-    </application-components>
 </idea-plugin>

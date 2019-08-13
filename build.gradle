@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.phpinnnacle'
-version '0.2'
+version '0.3'
 
 sourceCompatibility = 1.8
 
@@ -36,7 +36,6 @@ publishPlugin {
 
 patchPluginXml {
     changeNotes """
-      - Auto check is document is OpenAPI schema
-      - Added plugin icons
+       Refactoring and CS fixes
     """
 }

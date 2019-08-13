@@ -1,6 +1,5 @@
 package com.phpinnacle.redoc;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -10,11 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class RedocEditorProvider implements FileEditorProvider {
     private static final String EDITOR_TYPE_ID = "redoc";
 
-    private RedocApplication app;
-
-    public RedocEditorProvider() {
-        app = ApplicationManager.getApplication().getComponent(RedocApplication.class);
-    }
+    private RedocApplication app = new RedocApplication();
 
     @Override
     public boolean accept(@NotNull Project project, @NotNull VirtualFile virtualFile) {
