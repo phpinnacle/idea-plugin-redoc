@@ -15,7 +15,9 @@ Via IntelliJ platform marketplace
 
 ## Usage
 
-Open a Swagger or OpenAPI specification file, that's it.
+Open a Swagger or OpenAPI specification file.
+At the bottom left of the just opened editor tab you will see two buttons, *Text* and *Redoc*.
+Click on the *Redoc* button.
 
 ## Testing
 
